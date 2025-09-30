@@ -18,7 +18,7 @@ export class UsuarioRolController {
     public usuarioRepository: UsuarioRepository,
   ) { }
 
-  @get('/usuarios/{id}/rol', {
+  @get('/usuarios/{_id}/rol', {
     responses: {
       '200': {
         description: 'Rol belonging to Usuario',
@@ -31,8 +31,8 @@ export class UsuarioRolController {
     },
   })
   async getRol(
-    @param.path.number('id') id: typeof Usuario.prototype.id,
+    @param.path.string('_id') _id: typeof Usuario.prototype._id,
   ): Promise<Rol> {
-    return this.usuarioRepository.tiene(id);
+    return this.usuarioRepository.tiene(_id);
   }
 }

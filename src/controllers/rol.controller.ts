@@ -37,12 +37,12 @@ export class RolController {
         'application/json': {
           schema: getModelSchemaRef(Rol, {
             title: 'NewRol',
-            exclude: ['id'],
+            exclude: ['_id'],
           }),
         },
       },
     })
-    rol: Omit<Rol, 'id'>,
+    rol: Omit<Rol, '_id'>,
   ): Promise<Rol> {
     return this.rolRepository.create(rol);
   }
@@ -95,7 +95,7 @@ export class RolController {
     return this.rolRepository.updateAll(rol, where);
   }
 
-  @get('/roles/{id}')
+  @get('/roles/{_id}')
   @response(200, {
     description: 'Rol model instance',
     content: {
@@ -105,10 +105,10 @@ export class RolController {
     },
   })
   async findById(
-    @param.path.number('id') id: number,
+    @param.path.string('_id') _id: string,
     @param.filter(Rol, {exclude: 'where'}) filter?: FilterExcludingWhere<Rol>
   ): Promise<Rol> {
-    return this.rolRepository.findById(id, filter);
+    return this.rolRepository.findById(_id, filter);
   }
 
   @patch('/roles/{id}')
@@ -116,7 +116,7 @@ export class RolController {
     description: 'Rol PATCH success',
   })
   async updateById(
-    @param.path.number('id') id: number,
+    @param.path.string('_id') _id: string,
     @requestBody({
       content: {
         'application/json': {
@@ -126,7 +126,7 @@ export class RolController {
     })
     rol: Rol,
   ): Promise<void> {
-    await this.rolRepository.updateById(id, rol);
+    await this.rolRepository.updateById(_id, rol);
   }
 
   @put('/roles/{id}')
@@ -134,17 +134,17 @@ export class RolController {
     description: 'Rol PUT success',
   })
   async replaceById(
-    @param.path.number('id') id: number,
+    @param.path.string('_id') _id: string,
     @requestBody() rol: Rol,
   ): Promise<void> {
-    await this.rolRepository.replaceById(id, rol);
+    await this.rolRepository.replaceById(_id, rol);
   }
 
-  @del('/roles/{id}')
+  @del('/roles/{_id}')
   @response(204, {
     description: 'Rol DELETE success',
   })
-  async deleteById(@param.path.number('id') id: number): Promise<void> {
-    await this.rolRepository.deleteById(id);
+  async deleteById(@param.path.string('_id') _id: string): Promise<void> {
+    await this.rolRepository.deleteById(_id);
   }
 }
